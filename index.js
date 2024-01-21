@@ -84,7 +84,7 @@ bot.on('text', (ctx) => {
 
         ctx.replyWithPhoto({ url: 'https://i.ibb.co/nw9LR6R/notibest-Soon.png' },
       {
-      caption: `<b>- - - -----------( 🛒 % 🛍 )----------- - - -</b>\n<b>💲 • السعر الاصلي ($${resp.data.normal.discountPrice != "none" ? resp.data.normal.discountPrice : resp.data.normal.price}) :</b>\n\n${resp.data.aff.normal}\n<b>⭐️ • تخفيض العملات ($${resp.data.points.total}) :</b>\n\n${resp.data.aff.points}\n<b>⚡️ • السوبر ديلز ($${resp.data.super.price}) :</b>\n\n${resp.data.aff.super}\n<b>⏱ • العرض المحدود ($${resp.data.limited.price}) :</b>\n\n${resp.data.aff.limited}`,
+      caption: `<b>- - - ------------( 🛒 % 🛍 )------------ - - -</b>\n<b>💲 • السعر الاصلي ($${resp.data.normal.discountPrice != "none" ? resp.data.normal.discountPrice : resp.data.normal.price}) :</b>\n\n${resp.data.aff.normal}\n<b>⭐️ • تخفيض العملات ($${resp.data.points.total}) :</b>\n\n${resp.data.aff.points}\n<b>⚡️ • السوبر ديلز ($${resp.data.super.price}) :</b>\n\n${resp.data.aff.super}\n<b>⏱ • العرض المحدود ($${resp.data.limited.price}) :</b>\n\n${resp.data.aff.limited}`,
       parse_mode: "HTML",
       ...Markup.inlineKeyboard([
         Markup.button.callback("زر عادي", "plain"),
