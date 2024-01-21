@@ -78,7 +78,9 @@ bot.on('text', (ctx) => {
       };
       const cid = await idCatcher(ctx.message.text);
       if (cid == null) {
-        ctx.reply('المرجو إرسال روابط علي اكسبرس فقط');
+        ctx.reply('المرجو إرسال روابط علي اكسبرس فقط').then(() => {
+          ctx.deleteMessage(message.message_id)
+        });
       } else {
         const resp = await axios.get(`https://nbapi.onrender.com/fetch?id=${cid}`);
 
