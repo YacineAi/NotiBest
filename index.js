@@ -1,7 +1,7 @@
 const { Telegraf, Markup } = require('telegraf');
 const express = require('express');
 const https = require('https');
-const affData = require("./afflinker.js");
+const axios = require('axios');
 const app = express();
 const bot = new Telegraf(process.env.TELTOKEN);
 
@@ -40,49 +40,62 @@ bot.on('text', (ctx) => {
     // ctx.message.text
 
     ctx.reply('جاري البحث 🔎...')
-    .then((message) => {
-      affData.getData(ctx.message.text)
-      .then((coinPi) => {
-        // console.log("coinPi : ", coinPi)
+    .then(async (message) => {
+      const idCatcher = async (id) => {
+        if (/^\d+$/.test(id)) { // num test
+          return id;
+        } else if (/(https?:\/\/[^\s]+)/.test(id)){
+          if (id.includes("aliexpress.com")) {
+            if (/\/(\d+)\.html/.test(id)) {
+              return id.match(/\/(\d+)\.html/)[1];
+            } else {
+              try {
+                const response = await axios.head(id, { maxRedirects: 0, validateStatus: (status) => status >= 200 && status < 400 });
+                const decodedUrl = decodeURIComponent(response.headers.location);
+                const regex = /\/(\d+)\.html/;
+                const match = decodedUrl.match(regex);
+                if (match && match[1]) {
+                  return match[1];
+                } else if (decodedUrl.includes('/item/')) {
+                  // Handle the additional AliExpress URL pattern directly
+                  const regexItem = /\/(\d+)\.html/;
+                  const matchItem = decodedUrl.match(regexItem);
+                  if (matchItem && matchItem[1]) {
+                    return matchItem[1];
+                  }
+                }
+              } catch (error) {
+                return null;
+              }
+            }
+          } else {
+            return null;
+          }
+        } else {
+          return null;
+        }
+        return null;
+      };
+      const cid = await idCatcher(ctx.message.text);
+      if (cid == null) {
+        ctx.reply('المرجو إرسال روابط علي اكسبرس فقط');
+      } else {
+        const resp = await axios.get(`https://nbapi.onrender.com/fetch?id=${cid}`);
+
         ctx.replyWithPhoto({ url: 'https://i.ibb.co/nw9LR6R/notibest-Soon.png' },
-            // ${coinPi.aff.normal} / limited / super / points /
-            // ${coinPi.info.super.price}
-          {
-            
-            caption: `
-  <b>-----------✨ تخفيض الاسعار ✨-----------</b>
-  
-  ${coinPi.info.normal.name}.
-  
-  <b>الشحن</b> : ${coinPi.info.normal.shipping}.
-  <b>إسم المتجر</b> : ${coinPi.info.normal.store}.
-  <b>تقييم المتجر</b> : ${coinPi.info.normal.storeRate}.
-  
-  <b>----------- |✨ التخفيضات ✨| -----------</b>
-  
-  <b>السعر الاصلي</b> : (${coinPi.info.normal.discountPrice})
-  ${coinPi.aff.normal}
-  
-  <b>تخفيض العملات</b> : (${coinPi.info.points.discount})
-  ${coinPi.aff.points}
-  
-  <b>تخفيض السوبر</b> : (${coinPi.info.super.price})
-  ${coinPi.aff.super}
-  
-  <b>تخفيض العرض المحدود</b> : (${coinPi.info.limited.price})
-  ${coinPi.aff.limited}`,
-            parse_mode: "HTML",
-            ...Markup.inlineKeyboard([
-              Markup.button.callback("زر عادي", "plain"),
-              Markup.button.url("زر رابط", "https://www.npmjs.com/"),
-            ])
-          }).then(() => {
-            ctx.deleteMessage(message.message_id)
-        })
-  
-      });
-    });
-  });
+      {
+      caption: `<b>- - - -----------( 🛒 % 🛍 )----------- - - -</b>\n<b>💲 • السعر الاصلي ($${resp.discountPrice !== "none" ? resp.discountPrice : resp.price}) :</b>\n\n${aff.normal}\n<b>⭐️ • تخفيض العملات ($${resp.points.total}) :</b>\n\n${aff.points}\n<b>⚡️ • السوبر ديلز ($${resp.super.price}) :</b>\n\n${aff.super}\n<b>⏱ • العرض المحدود ($${resp.limited.price}) :</b>\n\n${aff.limited}`,
+      parse_mode: "HTML",
+      ...Markup.inlineKeyboard([
+        Markup.button.callback("زر عادي", "plain"),
+        Markup.button.url("زر رابط", "https://www.npmjs.com/"),
+      ])
+    }).then(() => {
+      ctx.deleteMessage(message.message_id)
+    })
+  }
+});
+});
 
 // on media
 bot.on('sticker' || 'animation' || 'audio' || 'sticker' || 'document' || 'photo' || 'video' || 'video_note' || 'voice', (ctx) => {
