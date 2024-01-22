@@ -85,13 +85,13 @@ bot.on('text', (ctx) => {
         const resp = await axios.get(`https://nbapi.onrender.com/fetch?id=${cid}`);
         const copo = () => {
           if (resp.data.normal.coupon != "none") {
-            let shp = "- - - -----------( 🏷️ ✓ 💰 )----------- - - -\n";
+            let shp = "\n- - - -----------( 🏷️ ✓ 💰 )----------- - - -\n";
             resp.data.normal.coupon.forEach((c) => {
-              shp += `\n🏷 • تخفيض ${c.desc}$ على طلبات التي تزيد عن ${c.on}$ [ <code>${c.code}</code> ].\n`
+              shp += `\n🏷 • تخفيض ${c.desc}$ على طلبات التي تزيد عن ${c.on}$ [ <code>${c.code}</code> ].\nBy @NotiBestBot`
             });
             return shp;
           } else {
-            return "\n";
+            return "\nBy @NotiBestBot";
           }
         };
         ctx.replyWithPhoto({ url: 'https://i.ibb.co/nw9LR6R/notibest-Soon.png' },
