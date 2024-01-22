@@ -83,10 +83,20 @@ bot.on('text', (ctx) => {
         });
       } else {
         const resp = await axios.get(`https://nbapi.onrender.com/fetch?id=${cid}`);
-
+        const copo = () => {
+          if (resp.coupon != "none") {
+            let shp = "- - - -----------( 🏷️ ✓ 💰 )----------- - - -\n";
+            resp.coupon.array.forEach((c) => {
+              shp += `\n🏷 • تخفيض ${c.desc}$ على طلبات التي تزيد عن ${c.on}$ [ <code>${c.code}</code> ].\n`
+            });
+            return shp;
+          } else {
+            return "\n";
+          }
+        };
         ctx.replyWithPhoto({ url: 'https://i.ibb.co/nw9LR6R/notibest-Soon.png' },
       {
-      caption: `<b>- - - ------------( 🛒 % 🛍 )------------ - - -</b>\n<b>💲 • السعر الاصلي ($${resp.data.normal.discountPrice != "none" ? resp.data.normal.discountPrice : resp.data.normal.price}) :</b>\n\n${resp.data.aff.normal}\n<b>⭐️ • تخفيض العملات ($${resp.data.points.total}) :</b>\n\n${resp.data.aff.points}\n<b>⚡️ • السوبر ديلز ($${resp.data.super.price}) :</b>\n\n${resp.data.aff.super}\n<b>⏱ • العرض المحدود ($${resp.data.limited.price}) :</b>\n\n${resp.data.aff.limited}`,
+      caption: `<b>- - - ------------( 🛒 % 🛍 )------------ - - -</b>\n<b>💲 • السعر الاصلي ($${resp.data.normal.discountPrice != "none" ? resp.data.normal.discountPrice : resp.data.normal.price}) :</b>\n\n${resp.data.aff.normal}\n<b>⭐️ • تخفيض العملات ($${resp.data.points.total}) :</b>\n\n${resp.data.aff.points}\n<b>⚡️ • السوبر ديلز ($${resp.data.super.price}) :</b>\n\n${resp.data.aff.super}\n<b>⏱ • العرض المحدود ($${resp.data.limited.price}) :</b>\n\n${resp.data.aff.limited}${copo()}`,
       parse_mode: "HTML",
       ...Markup.inlineKeyboard([
         Markup.button.callback("زر عادي", "plain"),
