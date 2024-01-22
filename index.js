@@ -98,7 +98,7 @@ bot.on('text', (ctx) => {
             return "\n\nBy @NotiBestBot";
           }
         };
-        ctx.replyWithPhoto({ url: 'https://i.ibb.co/nw9LR6R/notibest-Soon.png' },
+        ctx.replyWithPhoto({ url: `https://nbcovtest.onrender.com/prodimage?img=${resp.data.normal.image}&titel=العنوان${resp.data.normal.name}&normal=${resp.data.normal.discountPrice != "none" ? resp.data.normal.discountPrice : resp.data.normal.price}&points=${resp.data.points.total}&superd=${resp.data.super.price}&limited=${resp.data.limited.price}&shipping=${resp.data.normal.discountPrice != "free" ? resp.data.normal.discountPrice + "$" : "مجاني"}&shippingcomp=${resp.data.normal.shippingInfo.type}&shippingest=${resp.data.normal.shippingInfo.deliverRange}&store=${resp.data.normal.store}` },
       {
       caption: `<b>- - - ------------( 🛒 % 🛍 )------------ - - -</b>\n<b>💲 • السعر الاصلي ($${resp.data.normal.discountPrice != "none" ? resp.data.normal.discountPrice : resp.data.normal.price}) :</b>\n\n${resp.data.aff.normal}\n<b>⭐️ • تخفيض العملات ($${resp.data.points.total}) :</b>\n\n${resp.data.aff.points}\n<b>⚡️ • السوبر ديلز ($${resp.data.super.price}) :</b>\n\n${resp.data.aff.super}\n<b>⏱ • العرض المحدود ($${resp.data.limited.price}) :</b>\n\n${resp.data.aff.limited}${copo()}`,
       parse_mode: "HTML",
