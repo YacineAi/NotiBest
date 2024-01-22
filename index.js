@@ -95,7 +95,7 @@ bot.on('text', (ctx) => {
             });
             return shp;
           } else {
-            return "\nBy @NotiBestBot";
+            return "\n\nBy @NotiBestBot";
           }
         };
         ctx.replyWithPhoto({ url: 'https://i.ibb.co/nw9LR6R/notibest-Soon.png' },
