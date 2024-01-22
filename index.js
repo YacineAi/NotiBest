@@ -86,7 +86,7 @@ bot.on('text', (ctx) => {
         const copo = () => {
           if (resp.coupon != "none") {
             let shp = "- - - -----------( 🏷️ ✓ 💰 )----------- - - -\n";
-            resp.coupon.array.forEach((c) => {
+            resp.coupon.forEach((c) => {
               shp += `\n🏷 • تخفيض ${c.desc}$ على طلبات التي تزيد عن ${c.on}$ [ <code>${c.code}</code> ].\n`
             });
             return shp;
