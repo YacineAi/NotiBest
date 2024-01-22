@@ -86,8 +86,12 @@ bot.on('text', (ctx) => {
         const copo = () => {
           if (resp.data.normal.coupon != "none") {
             let shp = "\n<b>- - - -----------( 🏷️ ✓ 💰 )----------- - - -</b>\n";
-            resp.data.normal.coupon.forEach((c) => {
-              shp += `\n<b>🏷 • تخفيض ${c.desc}$ على طلبات التي تزيد عن ${c.on}$ [ <code>${c.code}</code> ].</b>\nBy @NotiBestBot`
+            resp.data.normal.coupon.forEach((c, i) => {
+              if (i == resp.data.normal.coupon.length) {
+                shp += `\n<b>🏷 • تخفيض ${c.desc}$ على طلبات التي تزيد عن ${c.on}$ [ <code>${c.code}</code> ].</b>\nBy @NotiBestBot`
+              } else {
+                shp += `\n<b>🏷 • تخفيض ${c.desc}$ على طلبات التي تزيد عن ${c.on}$ [ <code>${c.code}</code> ].</b>\n`
+              }
             });
             return shp;
           } else {
