@@ -85,9 +85,9 @@ bot.on('text', (ctx) => {
         const resp = await axios.get(`https://nbapi.onrender.com/fetch?id=${cid}`);
         const copo = () => {
           if (resp.data.normal.coupon != "none") {
-            let shp = "\n- - - -----------( 🏷️ ✓ 💰 )----------- - - -\n";
+            let shp = "\n<b>- - - -----------( 🏷️ ✓ 💰 )----------- - - -</b>\n";
             resp.data.normal.coupon.forEach((c) => {
-              shp += `\n🏷 • تخفيض ${c.desc}$ على طلبات التي تزيد عن ${c.on}$ [ <code>${c.code}</code> ].\nBy @NotiBestBot`
+              shp += `\n<b>🏷 • تخفيض ${c.desc}$ على طلبات التي تزيد عن ${c.on}$ [ <code>${c.code}</code> ].</b>\nBy @NotiBestBot`
             });
             return shp;
           } else {
