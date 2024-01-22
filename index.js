@@ -87,7 +87,7 @@ bot.on('text', (ctx) => {
           if (resp.data.normal.coupon != "none") {
             let shp = "\n<b>- - - -----------( 🏷️ ✓ 💰 )----------- - - -</b>\n";
             resp.data.normal.coupon.forEach((c, index) => {
-              if (index == resp.data.normal.coupon.length) {
+              if (index === resp.data.normal.coupon.length - 1) {
                 shp += `\n<b>🏷 • تخفيض ${c.desc}$ على طلبات التي تزيد عن ${c.on}$ [ <code>${c.code}</code> ].</b>\nBy @NotiBestBot`
               } else {
                 shp += `\n<b>🏷 • تخفيض ${c.desc}$ على طلبات التي تزيد عن ${c.on}$ [ <code>${c.code}</code> ].</b>\n`
