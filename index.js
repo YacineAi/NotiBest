@@ -231,12 +231,9 @@ bot.on('text', (ctx) => {
       caption: `<b>- - - ------------( 🛒 % 🛍 )------------ - - -</b>\n<b>💲 • السعر الاصلي (${resp.data.normal.discountPrice != "none" ? resp.data.normal.discountPrice : resp.data.normal.price}$) :</b>\n\n${resp.data.aff.normal}\n<b>⭐️ • تخفيض العملات (${resp.data.points.total}$) :</b>\n\n${resp.data.aff.points}\n<b>⚡️ • السوبر ديلز (${resp.data.super.price}$) :</b>\n\n${resp.data.aff.super}\n<b>⏱ • العرض المحدود (${resp.data.limited.price}$) :</b>\n\n${resp.data.aff.limited}${copo()}`,
       parse_mode: "HTML",
       ...Markup.inlineKeyboard([
-        Markup.button.callback('Button 1', 'button1'),
-        Markup.button.callback('Button 2', 'button2'),
-      ],
-      [
-        Markup.button.url('Button 3', 'https://www.example.com'),
-      ],)
+        [Markup.button.callback("زر عادي", "plain")],
+        [Markup.button.url("زر رابط", "https://www.npmjs.com/")],
+      ])
     }).then(() => {
       ctx.deleteMessage(message.message_id)
     })
