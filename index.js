@@ -166,7 +166,6 @@ bot.help((ctx) => {
 bot.on('text', (ctx) => {
     //console.log(ctx.message.from);
     // ctx.message.text
-
     ctx.reply('جاري البحث 🔎...')
     .then(async (message) => {
       const idCatcher = async (id) => {
@@ -233,6 +232,8 @@ bot.on('text', (ctx) => {
       parse_mode: "HTML",
       ...Markup.inlineKeyboard([
         Markup.button.callback("زر عادي", "plain"),
+      ],
+      [
         Markup.button.url("زر رابط", "https://www.npmjs.com/"),
       ])
     }).then(() => {
