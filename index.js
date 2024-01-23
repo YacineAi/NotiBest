@@ -231,8 +231,12 @@ bot.on('text', (ctx) => {
       caption: `<b>- - - ------------( 🛒 % 🛍 )------------ - - -</b>\n<b>💲 • السعر الاصلي (${resp.data.normal.discountPrice != "none" ? resp.data.normal.discountPrice : resp.data.normal.price}$) :</b>\n\n${resp.data.aff.normal}\n<b>⭐️ • تخفيض العملات (${resp.data.points.total}$) :</b>\n\n${resp.data.aff.points}\n<b>⚡️ • السوبر ديلز (${resp.data.super.price}$) :</b>\n\n${resp.data.aff.super}\n<b>⏱ • العرض المحدود (${resp.data.limited.price}$) :</b>\n\n${resp.data.aff.limited}${copo()}`,
       parse_mode: "HTML",
       ...Markup.inlineKeyboard([
-        [Markup.button.callback("زر عادي", "plain")],
-        [Markup.button.url("زر رابط", "https://www.npmjs.com/")],
+        [
+          Markup.button.url("الفيسبوك 💬", "https://t.me/NotiBestBot"),
+          Markup.button.url("قناتنا 📣", "https://t.me/NotiBestBot"),
+          Markup.button.url("تتبع طردك 📦", "https://t.me/NotiBestBot"),
+        ],
+        [Markup.button.url("موقعنا 🌐", "https://t.me/NotiBestBot")],
       ])
     }).then(() => {
       ctx.deleteMessage(message.message_id)
@@ -242,10 +246,9 @@ bot.on('text', (ctx) => {
 });
 
 // on media
-bot.on('sticker' || 'animation' || 'audio' || 'sticker' || 'document' || 'photo' || 'video' || 'video_note' || 'voice', (ctx) => {
-    ctx.reply('المرجو إرسال روابط علي اكسبرس فقط');
+bot.on(["sticker", "animation", "audio", "document", "photo", "video", "video_note", "voice"], (ctx) => {
+  ctx.reply('المرجو إرسال روابط علي اكسبرس فقط');
 });
-
 
 // postback
 bot.on('callback_query', (ctx) => {
