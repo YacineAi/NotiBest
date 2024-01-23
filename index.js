@@ -5,6 +5,8 @@ const axios = require('axios');
 const app = express();
 const bot = new Telegraf(process.env.TELTOKEN);
 const { createCanvas, loadImage, registerFont } = require('canvas');
+const otfFontPath = 'ara.otf';
+registerFont(otfFontPath, { family: 'Regular' });
 
 app.use(express.json());
 app.use(bot.webhookCallback('/bot'))
