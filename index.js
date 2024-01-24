@@ -8,6 +8,49 @@ const { createCanvas, loadImage, registerFont } = require('canvas');
 const otfFontPath = 'ara.otf';
 registerFont(otfFontPath, { family: 'Regular' });
 
+const { createClient } = require('@supabase/supabase-js');
+const supabase = createClient(process.env.SB_URL, process.env.SB_KEY, { auth: { persistSession: false} });
+
+/* ----- DB Qrs ----- */
+
+async function createUser(user) {
+  const { data, error } = await supabase
+      .from('users')
+      .insert([ user ]);
+
+    if (error) {
+      throw new Error('Error creating user : ', error);
+    } else {
+      return data
+    }
+};
+
+async function updateUser(id, update) {
+  const { data, error } = await supabase
+    .from('users')
+    .update( update )
+    .eq('uid', id);
+
+    if (error) {
+      throw new Error('Error updating user : ', error);
+    } else {
+      return data
+    }
+};
+
+async function userDb(userId) {
+  const { data, error } = await supabase
+    .from('users')
+    .select('*')
+    .eq('uid', userId);
+
+  if (error) {
+    console.error('Error checking user:', error);
+  } else {
+    return data
+  }
+};
+
 app.use(express.json());
 app.use(bot.webhookCallback('/bot'))
 
@@ -18,32 +61,26 @@ app.get('/ping', (req, res) => { res.status(200).json({ message: 'Ping successfu
 app.get('/prodimage', async (req, res) => {
   const { img, titel, normal, points, superd, limited, shipping, shippingcomp, shippingest, store } = req.query;
   try {
+    const squareImagePath = img;
+    const squareImage = loadImage(squareImagePath);
+    const backgroundImagePath = 'back.png';
+    const backgroundImage = loadImage(backgroundImagePath);
+    const canvasWidth = 1920;
+    const canvasHeight = 1080;
+    const canvas = createCanvas(canvasWidth, canvasHeight);
+    const ctx = canvas.getContext('2d');
+    Promise.all([squareImage, backgroundImage]).then(([squareImg, backgroundImg]) => {
+      ctx.drawImage(backgroundImg, 0, 0, canvasWidth, canvasHeight);
       
-      const squareImagePath = img;
-      const squareImage = loadImage(squareImagePath);
+      const squareSize = 650;
+      const scaledSquareImage = resizeImage(squareImg, squareSize, squareSize);
+      const centerX = 1544;
+      const centerY = 424;
+      const xPos = centerX - squareSize / 2;
+      const yPos = centerY - squareSize / 2;
+      const borderRadius = 53;
       
-      const backgroundImagePath = 'back.png';
-      const backgroundImage = loadImage(backgroundImagePath);
-
-const canvasWidth = 1920;
-const canvasHeight = 1080;
-const canvas = createCanvas(canvasWidth, canvasHeight);
-const ctx = canvas.getContext('2d');
-
-Promise.all([squareImage, backgroundImage]).then(([squareImg, backgroundImg]) => {
-  ctx.drawImage(backgroundImg, 0, 0, canvasWidth, canvasHeight);
-
-  const squareSize = 650;
-  const scaledSquareImage = resizeImage(squareImg, squareSize, squareSize);
-
-  const centerX = 1544;
-  const centerY = 424;
-  const xPos = centerX - squareSize / 2;
-  const yPos = centerY - squareSize / 2;
-
-  const borderRadius = 53;
-
-  ctx.save();
+      ctx.save();
   ctx.beginPath();
   ctx.moveTo(xPos + borderRadius, yPos);
   ctx.arcTo(xPos + squareSize, yPos, xPos + squareSize, yPos + squareSize, borderRadius);
@@ -155,7 +192,8 @@ function keepAppRunning() {
 
 /* ------ TELEGRAF ------ */
 
-bot.start((ctx) => {
+bot.start(async (ctx) => {
+  const user = await userDb(ctx.message.from.);
     ctx.reply('مرحبا 😃👋🏻 أنا NotiBest 🤖.\n \n أوفر لك عروض AliExpress 🛒 و الكثير... ✨.\n يمكنك إرسال أي رابط 🔗 و سأقوم بالبحث عن أسعار جديدة لك 👀.\n - لدي الكثير من الخدمات أيضا 🙄:\n \n 📈  • تتبع أسعار المنتجات المشهورة.\n 🏷️  • كوبونات مفيدة للمنتجات.\n 🤩  • تخفيضات و عروض مغرية.\n 🛒  • معلومات تحتاجها قبل الشراء.\n \n ملاحظة : كل الخدمات مجانية 💜. و يمكنك دعمنا عبر الشراء 🛒 من الروابط التي نوفرها لك 🌙.');
 });
 
