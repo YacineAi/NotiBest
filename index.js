@@ -280,11 +280,11 @@ bot.on('text', async (ctx) => {
       parse_mode: "HTML",
       ...Markup.inlineKeyboard([
         [
-          Markup.button.url("الفيسبوك 💬", "https://t.me/NotiBestBot"),
-          Markup.button.url("قناتنا 📣", "https://t.me/NotiBestBot"),
-          Markup.button.url("تتبع طردك 📦", "https://t.me/NotiBestBot"),
+          Markup.button.url("الفيسبوك 💬", "https://www.facebook.com/NotiBest"),
+          Markup.button.url("قناتنا 📣", "https://t.me/NotiBest"),
+          Markup.button.url("تتبع طردك 📦", "https://t.me/NotiBest"),
         ],
-        [Markup.button.url("موقعنا 🌐", "https://t.me/NotiBestBot")],
+        [Markup.button.url("موقعنا 🌐", "https://t.me/NotiBest")],
       ])
     }).then(() => {
       ctx.deleteMessage(message.message_id)
