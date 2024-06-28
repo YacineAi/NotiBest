@@ -218,7 +218,7 @@ bot.on('text', async (ctx) => {
       const idCatcher = async (id) => {
         if (/^\d+$/.test(id)) { // num test
           return id;
-        } else if (/(https?:\/\/[^\s]+)/.test(id) || /(http?:\/\/[^\s]+)/.test(id)){
+        } else if (/(https?:\/\/[^\s]+)/.test(id)){
           if (id.includes("aliexpress.com")) {
             if (/\/(\d+)\.html/.test(id)) {
               return id.match(/\/(\d+)\.html/)[1];
