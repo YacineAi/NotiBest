@@ -256,7 +256,7 @@ bot.on('text', async (ctx) => {
           ctx.deleteMessage(message.message_id)
         });
       } else {
-        const resp = await axios.get(`https://nbapi.onrender.com/fetch?id=${cid}`);
+        const resp = await axios.get(`https://nbapi-2.onrender.com/fetch?id=${cid}`);
         const copo = () => {
           if (resp.data.normal.coupon != "none") {
             let shp = "\n\n<b>- - - -------------( 🏷️ ✓ 💰 )------------- - - -</b>\n";
